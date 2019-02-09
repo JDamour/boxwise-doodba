@@ -7,22 +7,20 @@
         depth: $DEPTH_DEFAULT
     remotes:
         ocb: https://github.com/OCA/OCB.git
-        odoo: https://github.com/odoo/odoo.git
+        origin: https://github.com/odoo/odoo.git
         openupgrade: https://github.com/OCA/OpenUpgrade.git
     target:
-        ocb $ODOO_VERSION
+        origin $ODOO_VERSION
     merges:
-        - ocb $ODOO_VERSION
+        - origin $ODOO_VERSION
         # Example of a merge of the PR with the number <PR>
         # - oca refs/pull/<PR>/head
 
-# Example of an OCA repository
-./l10n-spain:
+./boxwise_wms:
     defaults:
         depth: $DEPTH_DEFAULT
     remotes:
-        oca: https://github.com/OCA/l10n-spain.git
-    target:
-        oca $ODOO_VERSION
+        origin: https://github.com/boxwise/boxwise_wms.git
+    target: origin master
     merges:
-        - oca $ODOO_VERSION
+        - origin master
