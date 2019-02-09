@@ -72,3 +72,7 @@ To start the odoo-shell run
 
 
 ### [Testing](https://github.com/Tecnativa/doodba#testing)
+
+### VSCode optimization
+
+To optimize all VSCode run the setup script in .vscode!
