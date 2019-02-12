@@ -25,7 +25,7 @@ Step 3 and 4 are needed if the current user wants to have writing access.
 
        export UID GID="$(id -g $USER)" UMASK="$(umask)"
 
-5. Adjust the file `odoo/custom/src/repos.yaml` and `odoo/custom/src/addons.yaml`. Here, you can set if you need any extra modules and where to clone them from. Check out [the original doc](https://github.com/Tecnativa/doodba#optodoocustomsrcreposyaml) for more help and some examples.
+5. (optional) If you need to install any other custom modules, e.g. from the odoo community (OCA), then adjust the files `odoo/custom/src/repos.yaml` and `odoo/custom/src/addons.yaml`. Check out [the original doc](https://github.com/Tecnativa/doodba#optodoocustomsrcreposyaml) for more help and some examples.
 
 6. Build your development setup.
 
@@ -35,7 +35,7 @@ Step 3 and 4 are needed if the current user wants to have writing access.
 
        ln -s devel.yaml docker-compose.yml
 
-8. Clone the boxwise repos you need into `odoo/src/custom/private/`.
+8. Clone the boxwise repos you need into `odoo/custom/src/private/`.
 
 8. Start your development environment.
 
