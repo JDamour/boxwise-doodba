@@ -15,6 +15,7 @@ Within a few commands you can create use a lot of odoo dev tools, e.g. the pytho
 
     cd boxwise-doodba
 
+Step 3 and 4 are needed if the current user wants to have writing access.
 3. Make sure that the folder odoo/auto has the right access rights.
 
     chown -R $USER:1000 odoo/auto
@@ -24,15 +25,17 @@ Within a few commands you can create use a lot of odoo dev tools, e.g. the pytho
 
     export UID GID="$(id -g $USER)" UMASK="$(umask)"
 
-5. Adjust the file `oddo/custom/src/repos.yaml` and `oddo/custom/src/addons.yaml`. Here, you can set from which branch and repo boxwise should be cloned and which additional modules might be needed. Check out [the original doc](https://github.com/Tecnativa/doodba#optodoocustomsrcreposyaml) for more help and some examples.
+5. Adjust the file `odoo/custom/src/repos.yaml` and `odoo/custom/src/addons.yaml`. Here, you can set if you need any extra modules and where to clone them from. Check out [the original doc](https://github.com/Tecnativa/doodba#optodoocustomsrcreposyaml) for more help and some examples.
 
 6. Build your development setup.
 
     docker-compose -f setup-devel.yaml run --rm odoo
 
-7. Create a link of the development docker-compose file `devel.yaml` to make it your default docker-compose file. 
+7. Create a link of the development docker-compose file `devel.yaml` to make it your default docker-compose file.
 
     ln -s devel.yaml docker-compose.yml
+
+8. Clone the boxwise repos you need into `odoo/src/custom/private/`.
 
 8. Start your development environment.
 
@@ -41,9 +44,9 @@ Within a few commands you can create use a lot of odoo dev tools, e.g. the pytho
 ## Default
 
 ### URL / Port for 11.0
-    
+
     localhost:11069 or 127.0.0.1:11069
-    
+
 ### Login credentials
 
     email: admin
@@ -51,7 +54,7 @@ Within a few commands you can create use a lot of odoo dev tools, e.g. the pytho
 
 ## Quick ref
 
-Feel free to add useful commands you found in this section. 
+Feel free to add useful commands you found in this section.
 
 All section titles are links, too.
 
@@ -62,7 +65,7 @@ To put breakpoints in your code, put this in your python scrict:
     import wdb
     wdb.set_trace()
 
-To acces wdb, browse http://localhost:1984 
+To acces wdb, browse http://localhost:1984
 
 ### odoo-shell
 
