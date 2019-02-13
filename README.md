@@ -56,7 +56,19 @@ Step 3 and 4 are needed if the current user wants to have writing access.
 
 Feel free to add useful commands you found in this section.
 
-All section titles are links, too.
+Some section titles are links, too.
+
+### Restarting the servers
+
+- If you changed CSS/JS press F5
+- If you changed the contents of a preexisting view in a preexisting XML file, on Odoo v9+: F5
+- If you changed some python code that doesn't involve database modifications: 
+
+        docker-compose restart odoo odoo_proxy
+- Otherwise (add/rm data to XML files, add/rm XML files, change model definitions): 
+
+        docker-compose run --rm odoo addons update -w my_addon && docker-compose restart odoo odoo_proxy
+
 
 ### [wdb](https://github.com/Tecnativa/doodba#wdb)
 
