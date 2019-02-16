@@ -37,9 +37,19 @@ Step 3 and 4 are needed if the current user wants to have writing access.
 
 8. Clone the boxwise repos you need into `odoo/custom/src/private/`.
 
-8. Start your development environment.
+9. Start your development environment.
 
        docker-compose up
+       
+10. (optional) If you need to print / download pdfs you have to change the system parameter `web.base.url`. Docker is putting a network layer on top. Because of that odoo is assuming the wrong network adress of itself and cannot find the pdf converter when you want to download reports. To solve this problem do the following:
+
+    10.1 Run the command
+
+        echo http://$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' boxwise-doodba_odoo_1):8069
+
+    10.2 Save the result in the system parameter `ẁeb.base.url` through the odoo interface. Therefore, go to the menu
+    
+        Settings / Technical / Parameters / System Parameters
 
 ## Default
 
