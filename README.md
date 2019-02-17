@@ -43,7 +43,7 @@ Step 3 and 4 are needed if the current user wants to have writing access.
        
 10. (optional) If you need to print / download pdfs you have to change the system parameter `web.base.url`. Docker is putting a network layer on top. Because of that odoo is assuming the wrong network adress of itself and cannot find the pdf converter when you want to download reports. To solve this problem do the following:
 
-    10.1 Run the command
+    10.1 Run the command (The command only works if the server is running and if you have not renamed the git repo of boxwise-doodba. In that case you have to adjust the name of the odoo docker container in the command.)
 
         echo http://$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' boxwise-doodba_odoo_1):8069
 
