@@ -79,6 +79,9 @@ Some section titles are links, too.
 
         docker-compose run --rm odoo addons update -w my_addon && docker-compose restart odoo odoo_proxy
 
+### Install OCA addons
+
+Repeat the steps 4.), 5.) and 6.) of the [installation](https://github.com/boxwise/boxwise-doodba#installation)!
 
 ### [wdb](https://github.com/Tecnativa/doodba#wdb)
 
