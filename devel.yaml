@@ -19,6 +19,9 @@ services:
         extends:
             file: common.yaml
             service: odoo
+        env_file:
+            - .docker/odoo.env
+            - .docker/db-access.env
         build:
             args:
                 # To aggregate in development, use `setup-devel.yaml`
@@ -28,9 +31,9 @@ services:
                 CLEAN: "false"
                 COMPILE: "false"
         environment:
-            DOODBA_ENVIRONMENT: "${DOODBA_ENVIRONMENT-devel}"
+            DOODBA_ENVIRONMENT: "${DOODBA_ENVIRONMENT-devel_4}"
             PTVSD_ENABLE: "${DOODBA_PTVSD_ENABLE:-0}"
-            PGDATABASE: &dbname devel
+            PGDATABASE: &dbname devel_4
             PYTHONOPTIMIZE: ""
             PYTHONPATH: /opt/odoo/custom/src/odoo
             SMTP_PORT: "1025"
@@ -63,6 +66,8 @@ services:
         extends:
             file: common.yaml
             service: db
+        env_file:
+            - .docker/db-creation.env
         environment:
             POSTGRES_DB: *dbname
             POSTGRES_PASSWORD: odoopassword
