@@ -52,8 +52,13 @@ services:
         command:
             - odoo
             - --workers=0
-            # XXX Odoo v8 has no `--dev` mode; Odoo v9 has no parameters
-            - --dev=all
+            # Logging everything there is
+            #- --log-level
+            #- debug
+            #- --log-sql
+            # Flag to enable faster loads of xml changes.
+            - --dev=xml
+
 
     db:
         extends:
