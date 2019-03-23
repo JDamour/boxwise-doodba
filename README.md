@@ -73,6 +73,10 @@ Tecnativa [updated their odoo docker image recently which breaks the access to t
             PTVSD_ENABLE: "${DOODBA_PTVSD_ENABLE:-0}"
             PGDATABASE: &dbname <my new database>
 
+In your browser you can log into your new database by typing:
+
+        localhost:11069/web?db=<my new database>
+
 ## Quick ref
 
 Feel free to add useful commands you found in this section.
