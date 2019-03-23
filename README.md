@@ -61,6 +61,17 @@ Step 3 and 4 are needed if the current user wants to have writing access.
 
     email: admin
     password: admin
+    
+## Troubleshooting
+
+### access to database manager is not granted
+
+Tecnativa [updated their odoo docker image recently which breaks the access to the database manager](https://github.com/Tecnativa/doodba/issues/67#issuecomment-467339077). A issue is filed and they are on it to solve it. Until then, you can create a new database by changing the fields `DOODBA_ENVIRONMENT` and `PGDATABASE` in `devel.yaml`:
+
+        environment:
+            DOODBA_ENVIRONMENT: "${DOODBA_ENVIRONMENT-<my new database>}"
+            PTVSD_ENABLE: "${DOODBA_PTVSD_ENABLE:-0}"
+            PGDATABASE: &dbname <my new database>
 
 ## Quick ref
 
@@ -97,7 +108,28 @@ To acces wdb, browse http://localhost:1984
 To start the odoo-shell run
 
     docker-compose run --rm odoo odoo shell
+    
+If you want to start the odoo-shell hooked up to another database than the doodba default, run
 
+    docker-compose run --rm odoo odoo shell -d <your_database>
+    
+### Create, duplicate, delete databases from odoo-shell
+
+Open odoo shell and import the following 
+
+        from openerp.service import db
+        
+Here, some useful commands
+
+        #help(db)
+        db.list_dbs()
+        #Prove list of avalibale db
+        db.exp_drop('dbname')
+        #Drop an existing db
+        db.exp_duplicate_database('olddb','newdb')
+        #Duplicate an  existing db
+        db.exp_create_database('dbname',None,'en_US','username','password')
+        #Create a new  db
 
 ### [Testing](https://github.com/Tecnativa/doodba#testing)
 
