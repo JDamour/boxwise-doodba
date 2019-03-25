@@ -71,7 +71,6 @@ services:
             - .docker/db-creation.env
         environment:
             POSTGRES_DB: *dbname
-            POSTGRES_PASSWORD: odoopassword
 
     smtp:
         extends:
