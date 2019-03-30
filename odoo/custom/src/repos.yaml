@@ -16,3 +16,12 @@
         - origin $ODOO_VERSION
         # Example of a merge of the PR with the number <PR>
         # - oca refs/pull/<PR>/head
+
+boxwise_wms:
+    defaults:
+        depth: $DEPTH_MERGE
+    remotes:
+        origin: https://github.com/boxwise/boxwise_wms.git
+    target: origin master
+    merges:
+        - origin refactor_folder_structure
