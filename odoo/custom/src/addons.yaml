@@ -1,6 +1,11 @@
+# DO NOT touch, they are important for the installation
+server-tools:
+    - module_auto_update
+boxwise_wms:
+    - "*"
+
+# Add all the other addons you need.
 website:
     - website_menu_by_user_status
 web:
     - website_responsive
-boxwise_wms:
-    - "*"

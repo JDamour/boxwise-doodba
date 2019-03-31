@@ -17,6 +17,7 @@
         # Example of a merge of the PR with the number <PR>
         # - oca refs/pull/<PR>/head
 
+# You can specify here which branch of Boxwise should be cloned and checked out
 boxwise_wms:
     defaults:
         depth: $DEPTH_MERGE
@@ -25,3 +26,5 @@ boxwise_wms:
     target: origin master
     merges:
         - origin refactor_folder_structure
+
+# Add other sources below if need be

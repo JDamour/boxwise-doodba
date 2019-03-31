@@ -19,6 +19,7 @@ Within a few commands you can create use a lot of odoo dev tools, e.g. the pytho
         export UID GID="$(id -g $USER)" UMASK="$(umask)"
         docker-compose -f setup-devel.yaml run --rm odoo
         ln -s devel.yaml docker-compose.yml
+        docker-compose run --rm odoo --stop-after-init -i module_auto_update,boxwise_wms,boxwise_wms_pampiraiki && docker-compose run --rm odoo autoupdate --stop-after-init
         docker-compose up
 
 ### step by step
@@ -47,21 +48,18 @@ Within a few commands you can create use a lot of odoo dev tools, e.g. the pytho
 
        ln -s devel.yaml docker-compose.yml
 
-7. Start your development environment.
+7. Install all boxwise modules and the module_auto_update module.
+
+        docker-compose run --rm odoo --stop-after-init -i module_auto_update,boxwise_wms,boxwise_wms_pampiraiki && docker-compose run --rm odoo autoupdate --stop-after-init
+
+    The second command creates a hash stored in the db to track if modules changed over time.
+
+You are now ready to go. All boxwise repos and modules are already checked out and installed.
+
+9. Start your development environment.
 
        docker-compose up
 
-8. (optional) If you need to print / download pdfs you have to change the system parameter `web.base.url`. Docker is putting a network layer on top. Because of that odoo is assuming the wrong network adress of itself and cannot find the pdf converter when you want to download reports. To solve this problem do the following:
-
-    8.1 Run the command (The command only works if the server is running and if you have not renamed the git repo of boxwise-doodba. In that case you have to adjust the name of the odoo docker container in the command.)
-
-        echo http://$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' boxwise-doodba_odoo_1):8069
-
-    8.2 Save the result in the system parameter `ẁeb.base.url` through the odoo interface. Therefore, go to the menu
-
-        Settings / Technical / Parameters / System Parameters
-
-You are now ready to go. All boxwise repos and modules are already checked out and installed through a git
 
 ## Default
 
@@ -80,6 +78,13 @@ Feel free to add useful commands you found in this section.
 
 Some section titles are links, too.
 
+### Odoo frontend developer mode
+
+To activate the developer mode in the odoo frontend, there two ways:
+
+    1. Add `debug` in the url --> `localhost:11069/web?debug#....` or
+    2. Go to settings and click the link hidden beneath the credentials on the far right!
+
 ### Update your doodba
 
 When you pulled changes to the boxwise-doodba, you should rerun parts of the [installation](https://github.com/boxwise/boxwise-doodba#installation). Since they are explained above, here just the commands in short.
@@ -97,13 +102,27 @@ When you pulled changes to the boxwise-doodba, you should rerun parts of the [in
         docker-compose restart odoo odoo_proxy
 - Otherwise (add/rm data to XML files, add/rm XML files, change model definitions):
 
-        docker-compose run --rm odoo addons update -w my_addon && docker-compose restart odoo odoo_proxy
+        docker-compose run --rm odoo autoupdate && docker-compose restart odoo odoo_proxy
+
+### Update addons
+
+To update all modules which have changed since the last update run
+
+        docker-compose run --rm odoo autoupdate
+
+If you want to update a specific addon run
+
+        docker-compose run --rm odoo odoo -u addon1,addon2 --stop-after-init
 
 ### Install OCA addons
 
 If you need to install any other custom modules, e.g. from the odoo community (OCA), then adjust the files `odoo/custom/src/repos.yaml` and `odoo/custom/src/addons.yaml`. Check out [the original doc](https://github.com/Tecnativa/doodba#optodoocustomsrcreposyaml) for more help and some examples. BTW, our Boxwise modules and repos are specified there, too.
 
-After adjust the `.yaml`-files, repeat the steps 4.) and 5.) of the [installation](https://github.com/boxwise/boxwise-doodba#installation)!
+After adjust the `.yaml`-files, repeat the steps 4.) and 5.) of the [installation](https://github.com/boxwise/boxwise-doodba#installation)! Please stop all running docker containers for this step!
+
+To finally install the modules in the instance run
+
+        docker-compose run --rm odoo odoo -i addon1,addon2 --stop-after-init
 
 ### [wdb](https://github.com/Tecnativa/doodba#wdb)
 
@@ -124,7 +143,17 @@ If you want to start the odoo-shell hooked up to another database than the doodb
 
     docker-compose run --rm odoo odoo shell -d <your_database>
 
-### Create, duplicate, delete databases from odoo-shell
+### Create, duplicate, delete databases
+
+#### in the front end
+
+Open a browser window and go to
+
+        http://localhost:11069/web/database/manager
+
+There you can choose your own log in credentials and leave out the demo data of the default installation.
+
+#### in the odoo-shell
 
 Open odoo shell and import the following
 
@@ -143,6 +172,25 @@ Here, some useful commands
         #Create a new  db
 
 ### [Testing](https://github.com/Tecnativa/doodba#testing)
+
+#### Run unittests
+
+Your tests must be stored in the `tests`-subfolder of your module.
+A test class should look like:
+
+        class TestRandomIdSequence(common.TransactionCase):
+            def setUp(self):
+                # this is a method which sets up some global variables needed in the tests
+                ...
+
+            @common.post_install(True)   # this one executes test on module update
+            @common.at_install(True)     # his one executes test on module installation
+            def test_random_id_sequence(self):  # test methods have to start with 'test_' for the odoo test autodiscovery process
+                ...
+
+To run the unittests
+
+        docker-compose run --rm odoo unittest addon1,addon2
 
 ### VSCode optimization
 
