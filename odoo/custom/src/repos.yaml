@@ -24,7 +24,9 @@ boxwise_wms:
     remotes:
         origin: https://github.com/boxwise/boxwise_wms.git
     target: origin master
+    # If you want to check out another branch, e.g. a pull request.
     merges:
-        - origin refactor_folder_structure
+        - origin master
+        # - origin refactor_folder_structure
 
 # Add other sources below if need be
