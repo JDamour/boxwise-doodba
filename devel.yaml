@@ -31,10 +31,10 @@ services:
                 CLEAN: "false"
                 COMPILE: "false"
         environment:
-            DOODBA_ENVIRONMENT: "${DOODBA_ENVIRONMENT-devel}"
+            DOODBA_ENVIRONMENT: "${DOODBA_ENVIRONMENT-boxwise}"
             LIST_DB: "true"
             PTVSD_ENABLE: "${DOODBA_PTVSD_ENABLE:-0}"
-            PGDATABASE: &dbname devel
+            PGDATABASE: &dbname boxwise
             PYTHONOPTIMIZE: ""
             PYTHONPATH: /opt/odoo/custom/src/odoo
             SMTP_PORT: "1025"
